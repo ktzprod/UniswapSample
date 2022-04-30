@@ -16,6 +16,7 @@ DAPP_URL=os.getenv('DAPP_URL')
 token_addresses = {
     # An error may occured if you get addresses that are not checksumed (usually when using external tools).
     "weth": Web3.toChecksumAddress("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"),
+    "uni": Web3.toChecksumAddress("0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"),
     "usdt": Web3.toChecksumAddress("0xdAC17F958D2ee523a2206206994597C13D831ec7"),
 }
 
