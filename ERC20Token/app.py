@@ -9,8 +9,6 @@ from web3 import Web3
 
 load_dotenv()  # take environment variables from .env.
 
-# The scope below mostly use the uniswap python API in order to easily check some informations
-
 DAPP_URL=os.getenv('DAPP_URL')
 
 token_addresses = {
@@ -21,15 +19,6 @@ token_addresses = {
     "dai": Web3.toChecksumAddress("0x6b175474e89094c44da98b954eedeac495271d0f"),
     "ape": Web3.toChecksumAddress("0x4d224452801aced8b2f0aebe155379bb5d594381"),
 }
-
-def check_token_price(token):
-    # using late import to limit the import to this function
-    from uniswap import Uniswap
-    uniswap = Uniswap(address=None, private_key=None, version=2, provider=DAPP_URL)
-    print(uniswap.get_token(token_addresses[token]))
-    print(uniswap.get_token(token_addresses["usdt"]))
-    return uniswap.get_price_input(token_addresses[token], token_addresses["usdt"], 10**18)
-
 
 # The scope below focus on using the uniswap contract directly
 
