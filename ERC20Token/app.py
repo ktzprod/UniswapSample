@@ -99,5 +99,6 @@ def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
 
 if __name__ == "__main__":
     w3 = Web3(Web3.HTTPProvider(DAPP_URL))
-    print(w3.isConnected())
+    if not w3.isConnected():
+        raise RuntimeError("Failed to connect to web3 provider")
     check_token_price_v2(w3, "weth")
