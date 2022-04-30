@@ -142,4 +142,11 @@ if __name__ == "__main__":
     if not w3.isConnected():
         raise RuntimeError("Failed to connect to web3 provider")
 
-    check_token_price_v2(w3, args.amount, args.token_a, args.token_b)
+    if not "usdt" in [args.token_a, args.token_b]:
+        price_a = check_token_price_v2(w3, 1, args.token_a)
+        price_b = check_token_price_v2(w3, 1, args.token_b)
+        price = price_a / price_b
+    else:
+        price = check_token_price_v2(w3, args.amount, args.token_a, args.token_b)
+
+    print(f"{args.amount} {args.token_a} -> {price} {args.token_b}")
