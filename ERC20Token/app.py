@@ -27,7 +27,6 @@ def _read_remote_abi(abi_url):
     json_content = json.loads(response_content)
     return json_content["abi"]
 
-
 UNISWAP_FACTORY_ADDRESS=os.getenv("UNISWAP_FACTORY_ADDRESS")
 UNISWAP_FACTORY_ABI_URL=os.getenv('UNISWAP_FACTORY_ABI_URL')
 UNISWAP_FACTORY_ABI=_read_remote_abi(UNISWAP_FACTORY_ABI_URL)
