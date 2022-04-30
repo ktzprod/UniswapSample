@@ -47,7 +47,7 @@ UNISWAP_PAIR_ABI_URL=os.getenv('UNISWAP_PAIR_ABI_URL')
 UNISWAP_PAIR_ABI=_read_remote_abi(UNISWAP_PAIR_ABI_URL)
 
 
-def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
+def get_pair_contract(w3_provider, token_a, token_b):
     # get uniswap factory contract
     uniswap_factory = w3_provider.eth.contract(address=UNISWAP_FACTORY_ADDRESS, abi=UNISWAP_FACTORY_ABI)
     if uniswap_factory is None:
@@ -62,6 +62,12 @@ def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
     uniswap_pair_contract = w3_provider.eth.contract(address=pair_address, abi=UNISWAP_PAIR_ABI)
     if uniswap_pair_contract is None:
         raise RuntimeError(f"Failed to get pair contract for pair [{token_a}, {token_b}]")
+
+    return uniswap_pair_contract
+
+
+def get_token_contract_from_pair(w3_provider, token_a, token_b):
+    uniswap_pair_contract = get_pair_contract(w3_provider, token_a, token_b)
 
     # get the UniswapV2ERC20 contract for each token
     token_0_contract_address = uniswap_pair_contract.caller().token0()
@@ -79,6 +85,12 @@ def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
     token_1_contract = w3_provider.eth.contract(address=token_1_contract_address, abi=UNISWAP_PAIR_ABI)
     if token_1_contract is None:
         raise RuntimeError(f"Failed to get token contract for token: {token_b}")
+
+    return (token_0_contract, token_1_contract)
+
+
+def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
+    (token_0_contract, token_1_contract) = get_token_contract_from_pair(w3_provider, token_a, token_b)
 
     # Check that token symbols match given symbols
     assert(token_0_contract.caller().symbol().lower() == token_a.lower())
