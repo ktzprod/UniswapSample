@@ -125,15 +125,8 @@ def check_token_price_v2(w3_provider, amount, token_a, token_b="usdt"):
     amount_in = amount*10**18
     rate = 10**6
 
-    # Check price using router for information
-    (_, expected_price_from_router) = get_token_price_from_router(w3_provider, amount_in, uniswap_pair_contract)
-    print(f"Price from Uniswap router is: {expected_price_from_router / rate}")
-
     # Ceheck price using custom strategy
-    expected_price = get_token_price(amount_in, uniswap_pair_contract) / rate
-    print(f"Price from local strategy: {expected_price}")
-
-    return expected_price
+    return get_token_price(amount_in, uniswap_pair_contract) / rate
 
 
 if __name__ == "__main__":
