@@ -24,7 +24,6 @@ Here is the list of token supported by this app:
 - USDT
 - UNI
 - DAI
-- APE
 
 # Environment
 
