@@ -116,11 +116,11 @@ def get_token_price(amount_in, uniswap_pair_contract):
     return numerator / denominator
 
 
-def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
+def check_token_price_v2(w3_provider, amount, token_a, token_b="usdt"):
     uniswap_pair_contract = get_pair_contract(w3_provider, token_a, token_b)
 
     # Use static amount for now
-    amount_in = 10**18
+    amount_in = amount*10**18
     rate = 10**6
 
     # Check price using router for information
@@ -138,4 +138,4 @@ if __name__ == "__main__":
     w3 = Web3(Web3.HTTPProvider(DAPP_URL))
     if not w3.isConnected():
         raise RuntimeError("Failed to connect to web3 provider")
-    check_token_price_v2(w3, "weth")
+    check_token_price_v2(w3, 1, "weth")
