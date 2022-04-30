@@ -12,6 +12,18 @@ Exemple:
 
 ```python .\ERC20Token\app.py --token-a weth --token-b usdt --amount 30```
 
+expected output
+
+```1 weth -> 2825.5231446769376 usdt```
+
+# Supported tokens
+
+Here is the list of token supported by this app:
+
+- WETH
+- USDT
+- UNI
+
 # Environment
 
 Your .env file need to specify:
