@@ -1,6 +1,16 @@
 # UniswapSample
 Small python sample onhow to interact with UniswapV2 API
 
+# Usage
+
+The sample can be called using the mandatory arguments:
+- token-a: the input token
+- token-b: the output token
+- amount: the amount of token A for conversion
+
+Exemple:
+
+```python .\ERC20Token\app.py --token-a weth --token-b usdt --amount 30```
 
 # Environment
 

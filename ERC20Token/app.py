@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 
 from dotenv import load_dotenv
 from urllib.request import urlopen
@@ -135,7 +136,16 @@ def check_token_price_v2(w3_provider, amount, token_a, token_b="usdt"):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description ='Check price for given amount of token A to token B')
+
+    parser.add_argument('--token-a', required=True, type=str, help='token A symbol')
+    parser.add_argument('--token-b', required=True, type=str, help='token B symbol')
+    parser.add_argument('--amount', required=True, type=int, help='token B symbol')
+
+    args = parser.parse_args()
+
     w3 = Web3(Web3.HTTPProvider(DAPP_URL))
     if not w3.isConnected():
         raise RuntimeError("Failed to connect to web3 provider")
-    check_token_price_v2(w3, 1, "weth")
+
+    check_token_price_v2(w3, args.amount, args.token_a, args.token_b)
