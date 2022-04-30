@@ -1,7 +1,7 @@
 from lib2to3.pgen2 import token
 import os
 
-from ERC20Token.app import get_pair_contract, get_token_contract_from_pair, get_token_price
+from ERC20Token.app import get_pair_contract, get_token_contract_from_pair, check_token_price
 from dotenv import load_dotenv
 from web3 import Web3
 
@@ -29,3 +29,8 @@ def test_get_token_contract_from_pair():
         assert token_a.caller().symbol().lower() in pair
         assert token_b.caller().symbol().lower() in pair
 
+
+def test_check_token_price():
+    for pair in pair_to_test:
+        (a, b) = pair
+        assert check_token_price(w3, 1, a, b) is not None
