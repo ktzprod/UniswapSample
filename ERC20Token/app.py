@@ -107,7 +107,7 @@ def get_token_price(amount_in, uniswap_pair_contract):
     return numerator / denominator
 
 
-def check_token_price_v2(w3_provider, amount, token_a, token_b="usdt"):
+def check_token_price(w3_provider, amount, token_a, token_b="usdt"):
     uniswap_pair_contract = get_pair_contract(w3_provider, token_a, token_b)
 
     # Use static amount for now
@@ -132,10 +132,10 @@ if __name__ == "__main__":
         raise RuntimeError("Failed to connect to web3 provider")
 
     if not "usdt" in [args.token_a, args.token_b]:
-        price_a = check_token_price_v2(w3, 1, args.token_a)
-        price_b = check_token_price_v2(w3, 1, args.token_b)
+        price_a = check_token_price(w3, 1, args.token_a)
+        price_b = check_token_price(w3, 1, args.token_b)
         price = price_a / price_b
     else:
-        price = check_token_price_v2(w3, args.amount, args.token_a.lower(), args.token_b.lower())
+        price = check_token_price(w3, args.amount, args.token_a.lower(), args.token_b.lower())
 
     print(f"{args.amount} {args.token_a} -> {price} {args.token_b}")
