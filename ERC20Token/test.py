@@ -1,4 +1,3 @@
-from lib2to3.pgen2 import token
 import os
 
 from ERC20Token.app import get_pair_contract, get_token_contract_from_pair, check_token_price
