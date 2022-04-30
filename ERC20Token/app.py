@@ -147,6 +147,6 @@ if __name__ == "__main__":
         price_b = check_token_price_v2(w3, 1, args.token_b)
         price = price_a / price_b
     else:
-        price = check_token_price_v2(w3, args.amount, args.token_a, args.token_b)
+        price = check_token_price_v2(w3, args.amount, args.token_a.lower(), args.token_b.lower())
 
     print(f"{args.amount} {args.token_a} -> {price} {args.token_b}")
