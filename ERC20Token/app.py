@@ -90,7 +90,7 @@ def get_token_contract_from_pair(w3_provider, token_a, token_b):
     if token_1_contract is None:
         raise RuntimeError(f"Failed to get token contract for token: {token_b}")
 
-    return (token_0_contract, token_1_contract)
+    return (uniswap_pair_contract, token_0_contract, token_1_contract)
 
 
 def get_token_price_from_router(w3_provider, amount_in, uniswap_pair_contract):
@@ -117,11 +117,21 @@ def get_token_price(amount_in, uniswap_pair_contract):
 
 
 def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
-    (token_0_contract, token_1_contract) = get_token_contract_from_pair(w3_provider, token_a, token_b)
+    uniswap_pair_contract = get_pair_contract(w3_provider, token_a, token_b)
 
-    # Check that token symbols match given symbols
-    assert(token_0_contract.caller().symbol().lower() == token_a.lower())
-    assert(token_1_contract.caller().symbol().lower() == token_b.lower())
+    # Use static amount for now
+    amount_in = 10**18
+    rate = 10**6
+
+    # Check price using router for information
+    (_, expected_price_from_router) = get_token_price_from_router(w3_provider, amount_in, uniswap_pair_contract)
+    print(f"Price from Uniswap router is: {expected_price_from_router / rate}")
+
+    # Ceheck price using custom strategy
+    expected_price = get_token_price(amount_in, uniswap_pair_contract) / rate
+    print(f"Price from local strategy: {expected_price}")
+
+    return expected_price
 
 
 if __name__ == "__main__":
