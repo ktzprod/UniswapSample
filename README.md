@@ -40,3 +40,9 @@ Your .env file need to specify:
 # Tests
 
 ```python -m pytest -v .\ERC20Token\test.py```
+
+# Known Limitations
+
+- Uniswap pairs contract should be probe automatically.
+- The code of this sample is Uniswap centric (and not OOP). We may want to implement interfaces for more platforms in the future.
+- Uniswap contracts ABI should probably be pre-compiled locally instead of relying on external resources.
