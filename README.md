@@ -23,3 +23,7 @@ Your .env file need to specify:
 - UNISWAP_ERC20_TOKEN_ABI_URL - the uniswap pair(ERC20) contract address
 - UNISWAP_ROUTER_ADDRESS - the uniswap router address
 - UNISWAP_ROUTER_ABI_URL - the uniswap router ABI
+
+# Tests
+
+```python -m pytest -v .\ERC20Token\test.py```
