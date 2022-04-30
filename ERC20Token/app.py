@@ -18,6 +18,8 @@ token_addresses = {
     "weth": Web3.toChecksumAddress("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"),
     "uni": Web3.toChecksumAddress("0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"),
     "usdt": Web3.toChecksumAddress("0xdAC17F958D2ee523a2206206994597C13D831ec7"),
+    "dai": Web3.toChecksumAddress("0x6b175474e89094c44da98b954eedeac495271d0f"),
+    "ape": Web3.toChecksumAddress("0x4d224452801aced8b2f0aebe155379bb5d594381"),
 }
 
 def check_token_price(token):
