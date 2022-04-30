@@ -46,6 +46,10 @@ UNISWAP_PAIR_ABI=_read_remote_abi(UNISWAP_PAIR_ABI_URL)
 UNISWAP_PAIR_ABI_URL=os.getenv('UNISWAP_PAIR_ABI_URL')
 UNISWAP_PAIR_ABI=_read_remote_abi(UNISWAP_PAIR_ABI_URL)
 
+UNISWAP_ROUTER_ADDRESS=os.getenv('UNISWAP_ROUTER_ADDRESS')
+UNISWAP_ROUTER_ABI_URL=os.getenv('UNISWAP_ROUTER_ABI_URL')
+UNISWAP_ROUTER_ABI=_read_remote_abi(UNISWAP_ROUTER_ABI_URL)
+
 
 def get_pair_contract(w3_provider, token_a, token_b):
     # get uniswap factory contract
@@ -87,6 +91,29 @@ def get_token_contract_from_pair(w3_provider, token_a, token_b):
         raise RuntimeError(f"Failed to get token contract for token: {token_b}")
 
     return (token_0_contract, token_1_contract)
+
+
+def get_token_price_from_router(w3_provider, amount_in, uniswap_pair_contract):
+    router_contract = w3_provider.eth.contract(address=UNISWAP_ROUTER_ADDRESS, abi=UNISWAP_ROUTER_ABI)
+    return router_contract.caller().getAmountsOut(
+        amount_in,
+        [uniswap_pair_contract.caller().token0(), uniswap_pair_contract.caller().token1()]
+    )
+
+
+def get_token_price(amount_in, uniswap_pair_contract):
+    # Compute based on getAmountOut() from UniswapV2Library.sol
+    #
+    # uint amountInWithFee = amountIn.mul(997);
+    # uint numerator = amountInWithFee.mul(reserveOut);
+    # uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+    # amountOut = numerator / denominator;
+    #
+    (reserve_in, reserve_out, _) = uniswap_pair_contract.caller().getReserves()
+    amount_in_with_fee = amount_in * 997
+    numerator = amount_in_with_fee * reserve_out
+    denominator = reserve_in * 1000 + amount_in_with_fee
+    return numerator / denominator
 
 
 def check_token_price_v2(w3_provider, token_a, token_b="usdt"):
