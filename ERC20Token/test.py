@@ -16,16 +16,16 @@ pair_to_test = [
     ("uni", "usdt"),
 ]
 
-def _get_pair_contract_test():
+def test_get_pair_contract():
     for pair in pair_to_test:
         (a, b) = pair
-        assert(get_pair_contract(w3, a, b) is not None)
+        assert get_pair_contract(w3, a, b) is not None
 
 
-def _get_token_contract_from_pair():
+def test_get_token_contract_from_pair():
     for pair in pair_to_test:
         (a, b) = pair
         (_, token_a, token_b) = get_token_contract_from_pair(w3, a, b)
-        assert(token_a.caller().symbol().lower() == a)
-        assert(token_b.caller().symbol().lower() == b)
+        assert token_a.caller().symbol().lower() in pair
+        assert token_b.caller().symbol().lower() in pair
 
